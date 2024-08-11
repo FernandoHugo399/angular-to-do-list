@@ -34,6 +34,10 @@ export class CadastroComponent {
         throw new Error('Preencha todos os campos!')
       }
 
+      if (this.user.password !== this.user.confirmPassword) {
+        throw new Error("As senhas não correspondem!");
+      }
+
       await this.authService.register(this.user);
       this.router.navigate([''])
       

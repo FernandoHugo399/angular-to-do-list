@@ -14,13 +14,13 @@ export class AuthService {
       this.userCollection = this.afs.collection<UserCollection>('User');
   }
 
-  async login(user: User) {
+  public async login(user: User) {
     const request = await this.auth.signInWithEmailAndPassword(user.email, user.password);
     const uid = request.user?.uid;
     this.userCollection.doc(uid).get().subscribe();
   }
 
-  async register(user: User) {
+  public async register(user: User) {
       const request = await this.auth.createUserWithEmailAndPassword(user.email, user.password);
       const uid = request.user?.uid;
       this.userCollection.doc(uid).set({
@@ -28,11 +28,11 @@ export class AuthService {
       });
   }
 
-  logout() {
+  public logout() {
     return this.auth.signOut();
   }
 
-  getAuth() {
+  public getAuth() {
     return this.auth;
   }
 }

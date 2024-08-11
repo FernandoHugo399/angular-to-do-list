@@ -3,9 +3,7 @@ export interface User {
     password: string;
 }
 
-export interface UserDTO {
-    email: string;
-    password: string;
+export interface UserDTO extends User{
     confirmPassword: string;
 }
 
