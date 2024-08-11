@@ -16,13 +16,13 @@
         <form>
             <div class="top-side">
                 <h2>Login</h2>
-                <input type="text" name="email" placeholder="Email">
-                <input type="password" name="password" placeholder="Senha">
+                <input type="text" name="email" placeholder="Email" [(ngModel)]="user.email" placeholder="Email">
+                <input type="password" name="password" placeholder="Senha" [(ngModel)]="user.password">
                 <span><a>Esqueceu a senha?</a></span>
             </div>
 
             <div class="bottom-side">
-                <input type="button" value="Login">
+                <input type="button" value="Login" (click)="login()" [disabled]="isButtonDisabled">
                 <span>Não possui conta?<a routerLink="/cadastro">Cadastra-se!</a></span>
             </div>
         </form>

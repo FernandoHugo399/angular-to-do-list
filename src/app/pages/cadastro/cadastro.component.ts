@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { UserDTO } from '../../models/User';
+import { UserRegisterDTO } from '../../models/User';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -10,9 +10,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './cadastro.component.scss'
 })
 export class CadastroComponent {
-  public disabledButton = false;
+  public isButtonDisabled = false;
   
-  public user: UserDTO = {
+  public user: UserRegisterDTO = {
     email: '',
     password: '',
     confirmPassword: ''
@@ -25,7 +25,7 @@ export class CadastroComponent {
   ) { }
   
   public async register() {
-    this.disabledButton = true;
+    this.isButtonDisabled = true;
 
     try {
       if(this.user.email == '' || 
@@ -49,8 +49,9 @@ export class CadastroComponent {
         password: '',
         confirmPassword: ''
       }
+
     } finally {
-      this.disabledButton = false;
+      this.isButtonDisabled = false;
     }
   }
 }

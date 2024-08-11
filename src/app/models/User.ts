@@ -3,7 +3,9 @@ export interface User {
     password: string;
 }
 
-export interface UserDTO extends User{
+export interface UserLoginDTO extends User { }
+
+export interface UserRegisterDTO extends User {
     confirmPassword: string;
 }
 
