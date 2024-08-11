@@ -1,0 +1,154 @@
+header {
+    width: 100%;
+    height: 60px;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 5%;
+}
+
+header .logo {
+    width: 100%;
+    max-width: 90px;
+    height: auto;
+}
+
+header .log-out {
+    width: 100%;
+    max-width: 87px;
+    height: auto;
+}
+
+header a {
+    width: 100%;
+    height: 100%;
+}
+
+header a img {
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    height: fit-content;
+    padding: 30px 5%;
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    width: 100%;
+    min-height: 80vh;
+    height: auto;
+    border-radius: 30px;
+    border: 4px solid rgba(204, 204, 204, 0.25);
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    -webkit-box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main .upper-side {
+    width: 100%;
+    height: auto;
+}
+
+main .upper-side h2 {
+    width: 100%;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+main .upper-side .center-task-list {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main .upper-side .task-list {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.upper-side .task-list > p {
+    font-weight: bold;
+}
+
+.upper-side .task-list .task {
+    width: auto;
+    border: 1px solid #ccc;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+}
+
+.upper-side .task-list > .done {
+    display: none;
+}
+
+.task-list .task .icons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.task-list .task .icons .icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background-position: center;
+    background-size: cover;
+}
+
+.task-list .task .icons .done {
+    background-image: url(/assets/images/completed-icon.png);
+}
+
+.task-list .task .icons .edit {
+    background-image: url(/assets/images/edit-icon.png);
+}
+
+.task-list .task .icons .delete {
+    background-image: url(/assets/images/trash-icon.png);
+}
+
+main .bottom-side {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+main .add-task {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 170px;
+    padding: 17px 12px;
+    background-color: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color-contrast);
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+main .add-task:hover {
+    background-color: var(--main-color-contrast);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    main .bottom-side {
+        justify-content: center;
+    }
+}
