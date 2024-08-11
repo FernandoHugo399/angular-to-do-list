@@ -34,6 +34,7 @@ export class LoginComponent {
       await this.authService.login(this.user);
 
       this.router.navigate(['']);
+      
     } catch (error: any) {
       if(error.code) {
         this.toastr.error(this.authService.getFirebaseError(error.code));
