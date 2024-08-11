@@ -17,7 +17,7 @@ export class AuthService {
   async login(user: User) {
     const request = await this.auth.signInWithEmailAndPassword(user.email, user.password);
     const uid = request.user?.uid;
-    this.userCollection.doc(uid).get().subscribe(res => console.log(res.data()));
+    this.userCollection.doc(uid).get().subscribe();
   }
 
   async register(user: User) {
