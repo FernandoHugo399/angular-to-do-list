@@ -42,7 +42,11 @@ export class CadastroComponent {
       this.router.navigate([''])
       
     } catch (error: any) {
-      this.toastr.error(error.message);
+      if(error.code) {
+        this.toastr.error(this.authService.getFirebaseError(error.code));
+      } else {
+        this.toastr.error(error.message)
+      }
       
       this.user = {
         email: '',
