@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { TaskCollection } from '../models/Task';
+import { Task, TaskCollection } from '../models/Task';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -16,6 +16,25 @@ export class TaskService {
       this.taskCollection = this.firestore.collection<TaskCollection>('Task');
     }
 
+    public async getTaks(): Promise<Task[]> {
+      const tasks: Task[] = [];
+
+      let uid = '';
+      this.authService.getAuth().user.subscribe(res => uid = res!.uid);
+
+      const response = await this.taskCollection.ref.where("id_user", "==", uid).get();
+      response.docs.map((e)=> {
+        const data = e.data();
+        tasks.push({
+          text: data.text,
+          done: data.done,
+          created_at: data.created_at
+        })
+      })
+
+      return tasks;
+    }
+
     public async addTask(text: string) {
       let task: TaskCollection = {
         text: text,
@@ -28,4 +47,17 @@ export class TaskService {
 
       await this.taskCollection.add(task);
     }
+
+  public async updateTask(taskId: string, updatedData: Partial<TaskCollection>) {
+    let uid = '';
+    this.authService.getAuth().user.subscribe(res => uid = res!.uid);
+
+    updatedData.id_user = uid;
+
+    await this.taskCollection.doc(taskId).update(updatedData);
+  }
+
+  public async deleteTask(taskId: string) {
+    await this.taskCollection.doc(taskId).delete();
+  }
 }
