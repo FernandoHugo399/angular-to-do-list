@@ -17,12 +17,21 @@
         <div class="upper-side">
             <h2>Lista de tarefas</h2>
             <div class="center-task-list">
-                <section class="task-list"></section>
+                <section class="task-list">
+                  <div class="task" *ngFor="let task of tasks">
+                    <p>{{ task.text }}</p>
+                    <div class="icons">
+                      <div class="icon done" (click)="changeStatusTaskToDone(task.id_task)"></div>
+                      <div class="icon edit" (click)="updateTask(task.id_task, task.text)"></div>
+                      <div class="icon delete" (click)="deleteTask(task.id_task)"></div>
+                    </div>
+                  </div>
+                </section>
             </div>
         </div>
-        
+
         <div class="bottom-side">
-            <button class="add-task">Adicionar tarefa</button>
+            <button class="add-task" (click)="addTask()">Adicionar tarefa</button>
         </div>
     </main>
 </div>

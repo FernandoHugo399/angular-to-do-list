@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Task, TaskCollection } from '../models/Task';
 import { AuthService } from './auth.service';
+import {firstValueFrom} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -9,51 +10,62 @@ import { AuthService } from './auth.service';
 export class TaskService {
   private taskCollection: AngularFirestoreCollection<TaskCollection>;
 
-  constructor(
+  constructor (
     private firestore: AngularFirestore,
     private authService: AuthService
-    ) {
-      this.taskCollection = this.firestore.collection<TaskCollection>('Task');
-    }
+  ) {
+    this.taskCollection = this.firestore.collection<TaskCollection>('Task');
+  }
 
-    public async getTaks(): Promise<Task[]> {
-      const tasks: Task[] = [];
+  public async getTasks(): Promise<Task[]> {
+    const tasks: Task[] = [];
 
-      let uid = '';
-      this.authService.getAuth().user.subscribe(res => uid = res!.uid);
+    let uid;
+    const auth = await firstValueFrom(this.authService.getAuth().user);
+    uid = auth!.uid;
 
-      const response = await this.taskCollection.ref.where("id_user", "==", uid).get();
-      response.docs.map((e)=> {
-        const data = e.data();
-        tasks.push({
-          text: data.text,
-          done: data.done,
-          created_at: data.created_at
-        })
+    const response = await this.taskCollection.ref
+      .orderBy("created_at", "desc")
+      .where("id_user", "==", uid)
+      .get();
+
+    response.docs.map((e)=> {
+      const data = e.data();
+      tasks.push({
+        id_task: e.id,
+        text: data.text,
+        done: data.done,
+        created_at: data.created_at
       })
+    })
 
-      return tasks;
+    return tasks;
+  }
+
+  public async addTask(text: string) {
+    let task: TaskCollection = {
+      text: text,
+      done: false,
+      created_at: new Date(),
+      id_user: ''
     }
 
-    public async addTask(text: string) {
-      let task: TaskCollection = {
-        text: text,
-        done: false,
-        created_at: new Date(),
-        id_user: ''
-      }
+    const response = await firstValueFrom(this.authService.getAuth().user);
+    task.id_user = response!.uid;
 
-      this.authService.getAuth().user.subscribe( res => task.id_user = res!.uid);
+    await this.taskCollection.add(task);
+  }
 
-      await this.taskCollection.add(task);
-    }
+  public async changeStatusTaskToDone(taskId: string) {
+    await this.updateTask(taskId, {done: true})
+  }
 
   public async updateTask(taskId: string, updatedData: Partial<TaskCollection>) {
-    let uid = '';
-    this.authService.getAuth().user.subscribe(res => uid = res!.uid);
+    let uid;
+    const auth = await firstValueFrom(this.authService.getAuth().user);
+    uid = auth!.uid;
 
     updatedData.id_user = uid;
-
     await this.taskCollection.doc(taskId).update(updatedData);
   }
 

@@ -1,9 +1,13 @@
 export interface Task {
+    id_task: string;
     text: string;
     done: boolean;
     created_at: Date;
 }
 
-export interface TaskCollection extends Task {
+export interface TaskCollection {
     id_user: string;
+    text: string;
+    done: boolean;
+    created_at: Date;
 }
