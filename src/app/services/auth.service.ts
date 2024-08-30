@@ -9,7 +9,7 @@ import { User, UserCollection } from '../models/User';
 })
 export class AuthService {
   private userCollection: AngularFirestoreCollection<UserCollection>;
-  
+
   constructor ( private auth: AngularFireAuth, private afs: AngularFirestore) {
       this.userCollection = this.afs.collection<UserCollection>('User');
   }
@@ -120,5 +120,4 @@ export class AuthService {
         return 'Erro desconhecido. Por favor, tente novamente ou entre em contato com o suporte!';
     }
   }
-  
 }
