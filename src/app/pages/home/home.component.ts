@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
 
   public async changeStatusTaskToDone(taskId: string) {
     await this.taskService.changeStatusTaskToDone(taskId);
+    await this.loadTasks();
   }
 
   public async updateTask(taskId: string, currentText: string) {

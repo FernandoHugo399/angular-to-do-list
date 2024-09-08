@@ -27,6 +27,7 @@ export class TaskService {
     const response = await this.taskCollection.ref
       .orderBy("created_at", "desc")
       .where("id_user", "==", uid)
+      .where("done", "==", false)
       .get();
 
     response.docs.map((e)=> {
