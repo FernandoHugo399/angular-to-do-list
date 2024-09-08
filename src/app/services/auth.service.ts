@@ -21,11 +21,11 @@ export class AuthService {
   }
 
   public async register(user: User) {
-      const request = await this.auth.createUserWithEmailAndPassword(user.email, user.password);
-      const uid = request.user?.uid;
-      this.userCollection.doc(uid).set({
-        email: user.email
-      });
+    const request = await this.auth.createUserWithEmailAndPassword(user.email, user.password);
+    const uid = request.user?.uid;
+    await this.userCollection.doc(uid).set({
+      email: user.email
+    });
   }
 
   public logout() {

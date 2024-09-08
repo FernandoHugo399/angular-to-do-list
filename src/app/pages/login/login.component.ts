@@ -3,6 +3,7 @@ import { UserLoginDTO } from '../../models/User';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'app-login',
@@ -11,19 +12,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent {
   public isButtonDisabled = false;
-  
+
   public user: UserLoginDTO = {
     email: '',
     password: ''
   };
-  
+
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: LoadingService
   ) { }
 
   public async login() {
+    this.loadingService.show();
     this.isButtonDisabled = true;
 
     try {
@@ -34,14 +37,14 @@ export class LoginComponent {
       await this.authService.login(this.user);
 
       this.router.navigate(['']);
-      
+
     } catch (error: any) {
       if(error.code) {
         this.toastr.error(this.authService.getFirebaseError(error.code));
       } else {
         this.toastr.error(error.message)
       }
-      
+
       this.user = {
         email: '',
         password: ''
@@ -49,6 +52,7 @@ export class LoginComponent {
 
     } finally {
       this.isButtonDisabled = false;
+      this.loadingService.hide();
     }
   }
 }

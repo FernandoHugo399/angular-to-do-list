@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserRegisterDTO } from '../../models/User';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {LoadingService} from "../../services/loading.service";
 
 @Component({
   selector: 'app-cadastro',
@@ -11,25 +12,27 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CadastroComponent {
   public isButtonDisabled = false;
-  
+
   public user: UserRegisterDTO = {
     email: '',
     password: '',
     confirmPassword: ''
   };
-  
+
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: LoadingService
   ) { }
-  
+
   public async register() {
+    this.loadingService.show();
     this.isButtonDisabled = true;
 
     try {
-      if(this.user.email == '' || 
-         this.user.password == '' || 
+      if(this.user.email == '' ||
+         this.user.password == '' ||
          this.user.confirmPassword == '') {
         throw new Error('Preencha todos os campos!')
       }
@@ -39,15 +42,15 @@ export class CadastroComponent {
       }
 
       await this.authService.register(this.user);
-      this.router.navigate([''])
-      
+      await this.router.navigate([''])
+
     } catch (error: any) {
       if(error.code) {
         this.toastr.error(this.authService.getFirebaseError(error.code));
       } else {
         this.toastr.error(error.message)
       }
-      
+
       this.user = {
         email: '',
         password: '',
@@ -56,6 +59,7 @@ export class CadastroComponent {
 
     } finally {
       this.isButtonDisabled = false;
+      this.loadingService.hide();
     }
   }
 }
